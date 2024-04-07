@@ -1,49 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shopping Cart</title>
-<link rel="stylesheet" href="styles.css">
 <style>
+    .photo_work {
+        text-align: center;
+        width: 90%;
+        height: auto;
+    }
+    
+    .center {
+        text-align: center;
+    }
+    
+    a.glo{
+     color:rgb(211, 137, 39);
+     padding: 10px 20px;
+     width:80%;
+     text-decoration:none;
+     text-align:center;
+     margin:20px auto;
+     display: block;
+     background-image: linear-gradient(to left,transparent,transparent 50%,rgb(211, 137, 39) 50%,rgb(211, 137, 39));
+     background-position: 100% 0;
+     background-size: 200% 100%;
+     transition: all .15s ease-in;
+     font: 400 18px tahoma;
+     border: 1px solid rgb(211, 137, 39);
+    }
+    a.glo:hover {
+    background-position: 0 0;
+    color:#fff;
+    }
+    
+    .menu{
+        list-style: none;
+        position: absolute;
+        top: 10px;
+        right: 2%;
+        color: #ffffff;
+    }
+    .welcome {
+        color: #ffffff;
+        text-decoration: none;
+    }
+    /*Стили для корзины*/
     .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 50%;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    /* Стили карточек в корзине */
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        background-color: #fff;
+        margin-bottom: 10px;
+    }
+    .cart-item-image {
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+    }
+    .cart-item-details {
+        flex: 1;
+    }
+    .cart-item-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .cart-item-price {
+        color: #007bff;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .cart-item-actions {
+        display: flex;
+        align-items: center;
+    }
+    .cart-item-quantity {
+        margin-right: 10px;
+        padding: 5px;
+        border: 1px solid #ddd;
+        width: 40px;
+        text-align: center;
+    }
+    .cart-item-remove {
+        color: #dc3545;
+        cursor: pointer;
+    }
+    .cart-total {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+        text-align: right;
+    }
 </style>
-</head>
-<body>
 
-<button id="cartButton">Open Cart</button>
-
+<!--Типо корзина и вся её логика-->
 <div id="cartModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -51,27 +128,92 @@
         <ul id="cartItems">
             <!-- Cart items will be dynamically added here -->
         </ul>
+        <div class="cart-total" id="cartTotal">
+            Итого: $0
+        </div>
     </div>
+    
 </div>
 
 <script>
-const cartButton = document.getElementById('cartButton');
-const cartModal = document.getElementById('cartModal');
-const closeButton = document.getElementsByClassName('close')[0];
+    const cartButton = document.getElementById('cartButton');
+    const cartModal = document.getElementById('cartModal');
+    const closeButton = document.getElementsByClassName('close')[0];
 
-cartButton.addEventListener('click', () => {
-    cartModal.style.display = 'block';
-});
-
-closeButton.addEventListener('click', () => {
-    cartModal.style.display = 'none';
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === cartModal) {
+    const cartItemsContainer = document.getElementById('cartItems');
+    const cartTotalElement = document.getElementById('cartTotal');
+    let cartTotal = 0;
+    closeButton.addEventListener('click', () => {
         cartModal.style.display = 'none';
+    });
+    window.addEventListener('click', (event) => {
+        if (event.target === cartModal) {
+            cartModal.style.display = 'none';
+        }
+    });
+    function OpenCart(){
+        cartModal.style.display = 'block';
     }
-});
+    
+    
+    // Функция для добавления товара в корзину
+    function addToCart(productName, productImage, price) {
+        const itemHtml = `
+            <div class="cart-item">
+                <img src="${productImage}" alt="${productName}" class="cart-item-image">
+                <div class="cart-item-details">
+                    <div class="cart-item-title">${productName}</div>
+                    <div class="cart-item-price">$${price}</div>
+                    <div class="cart-item-actions">
+                        <input type="number" class="cart-item-quantity" value="1" min="1" onchange="updateCartItem(this, ${price})">
+                        <span class="cart-item-remove" onclick="removeFromCart(this, ${price})">Удалить</span>
+                    </div>
+                </div>
+            </div>
+        `;
+        cartItemsContainer.innerHTML += itemHtml;
+        cartTotal += price;
+        updateCartTotal();
+    }
+    // Функция для удаления товара из корзины
+    function removeFromCart(element, price) {
+        const itemContainer = element.closest('.cart-item');
+        const quantityElement = itemContainer.querySelector('.cart-item-quantity');
+        const quantity = parseInt(quantityElement.value);
+        const itemPrice = price * quantity;
+        cartTotal -= itemPrice;
+        itemContainer.remove();
+        updateCartTotal();
+    }
+
+    // Функция для обновления цены товара при изменении количества
+    function updateCartItem(inputElement, pricePerItem) {
+        const quantity = parseInt(inputElement.value);
+        const itemContainer = inputElement.closest('.cart-item');
+        const priceElement = itemContainer.querySelector('.cart-item-price');
+        // Вычисляем стоимость товара с учетом нового количества
+        const newPrice = pricePerItem * quantity;
+        const oldPrice = parseFloat(priceElement.textContent.replace('$', ''));
+        // Вычисляем изменение стоимости
+        const priceDifference = newPrice - oldPrice;
+        cartTotal += priceDifference;
+        // Обновляем отображение цены товара
+        priceElement.textContent = `$${newPrice.toFixed(2)}`;
+        // Обновляем общую стоимость корзины
+        updateCartTotal();
+    }
+
+    // Функция для обновления общей стоимости корзины
+    function updateCartTotal() {
+        cartTotalElement.textContent = `Итого: $${cartTotal}`;
+    }
+
 </script>
-</body>
-</html>
+
+ <script>
+    // Пример добавления товаров в корзину при загрузке страницы (для демонстрации)
+    document.addEventListener('DOMContentLoaded', () => {
+        addToCart('Райзер','card1.webp', 500);
+        addToCart('Разветвитель','card2.webp', 300);
+    });
+</script>
