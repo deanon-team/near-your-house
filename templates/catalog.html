@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Каталог</title>
+<style>
+    body{
+    background: #f0f0f0;
+}
+.product-title{
+    font-size: 16px;
+    text-align: center;
+    position: absolute;
+}
+.product-price{
+    font-size: 20px;
+    position: absolute;
+    text-align: start;
+}
+.product-description{
+    font-size: 20px;
+    position: inherit;
+    text-align: justify;
+}
+</style>
+</head>
+<body>
+    <!--шапка-->
+<header>тут текст шапки</header>
+
+
+
+<!--алгоритм добавления товаров-->
+<ul>
+    {% for product in products %}
+    <li>
+        <div class="product-title">{{ product[1] }}</div>
+        <div class="product-price">${{ product[2] }}</div>
+        <div class="product-description">{{ product[3] }}</div>
+    </li>
+    {% endfor %}
+</ul>
+
+
+
+<footer>тут текст ног???????</footer>
+</body>
+</html>
