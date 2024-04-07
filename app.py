@@ -33,8 +33,8 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route('/catalog/<int:id>')
-def user(id):
+@app.route('/catalog')
+def catalog():
     return render_template('catalog.html')
 
 @app.route('/login', methods=['GET', 'POST'])

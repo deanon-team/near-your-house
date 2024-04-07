@@ -66,8 +66,8 @@ font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-decoration: none;
 }
     </style>
-</head>
-<body>
+
+
     <header>
         <h1>Near your house</h1>
     </header>
@@ -78,7 +78,6 @@ font-family: Verdana, Geneva, Tahoma, sans-serif;
 		<li><a class="welcome" href = "login">Войти</a></li>
 </ul>
     </div>
-    
     <nav>
         <ul>
             <li><a href="">Главная</a></li>
@@ -89,5 +88,11 @@ font-family: Verdana, Geneva, Tahoma, sans-serif;
             <li><a href="map">Карта</a></li>
         </ul>
     </nav>
+</head>
+<body>
+{% block body %}
+{% endblock %}
+
 </body>
+
 </html>
