@@ -5,55 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Управление доставкой изделий</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        margin: 0;
-        padding: 0;
-    }
-    
-    header {
-        background-color: rgb(211, 137, 39);
-        color: #fff;
-        text-align: center;
-        padding: 10px 0;
-    }
-    
-    nav {
-        background-color: #444;
-    }
-    
-    nav ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-    
-    nav ul li {
-        display: inline;
-    }
-    
-    nav ul li a {
-        color: #fff;
-        text-decoration: none;
-        padding: 10px 20px;
-    }
-    
-    main {
-        padding: 20px;
-    }
-    
-    footer {
-        background-color: rgb(211, 137, 39);
-        color: #fff;
-        text-align: center;
-        padding: 10px 0;
-    }
-    
-    h1 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-    
     .photo_work {
         text-align: center;
         width: 90%;
@@ -174,30 +125,7 @@
         text-align: right;
     }
 </style>
-</head>
-<body>
-    
-    <header>
-        <h1>Near your house</h1>
-    </header>
-    <div class="welcome">
-        <ul class = "menu">
-		<li><a class="welcome" href = "register">Регистрация</a></li>
-        <br/>
-		<li><a class="welcome" href = "login">Войти</a></li>
-</ul>
-    </div>
-    
-    <nav>
-        <ul>
-            <li><a href="/">Главная</a></li>
-            <li><a href="about">О нас</a></li>
-            <li><a href="contacts">Контакты</a></li>
-            <li><a href="catalog">Каталог</a></li>
-            <li><a onclick="OpenCart()">Корзина</a></li>
-            <li><a href="map">Карта</a></li>
-        </ul>
-    </nav>
+{% extends 'base.html' %}
     <main>
         <!-- Содержимое страницы -->
         <speacer>
@@ -215,102 +143,6 @@
         <p>&copy; 2024 Управление доставкой изделий</p>
     </footer>
 
-    <!--Типо корзина и вся её логика-->
-    <div id="cartModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Shopping Cart</h2>
-            <ul id="cartItems">
-                <!-- Cart items will be dynamically added here -->
-            </ul>
-            <div class="cart-total" id="cartTotal">
-                Итого: $0
-            </div>
-        </div>
-        
-    </div>
-
-    <script>
-        const cartButton = document.getElementById('cartButton');
-        const cartModal = document.getElementById('cartModal');
-        const closeButton = document.getElementsByClassName('close')[0];
-
-        const cartItemsContainer = document.getElementById('cartItems');
-        const cartTotalElement = document.getElementById('cartTotal');
-        let cartTotal = 0;
-        closeButton.addEventListener('click', () => {
-            cartModal.style.display = 'none';
-        });
-        window.addEventListener('click', (event) => {
-            if (event.target === cartModal) {
-                cartModal.style.display = 'none';
-            }
-        });
-        function OpenCart(){
-            cartModal.style.display = 'block';
-        }
-        
-        
-        // Функция для добавления товара в корзину
-        function addToCart(productName, productImage, price) {
-            const itemHtml = `
-                <div class="cart-item">
-                    <img src="${productImage}" alt="${productName}" class="cart-item-image">
-                    <div class="cart-item-details">
-                        <div class="cart-item-title">${productName}</div>
-                        <div class="cart-item-price">$${price}</div>
-                        <div class="cart-item-actions">
-                            <input type="number" class="cart-item-quantity" value="1" min="1" onchange="updateCartItem(this, ${price})">
-                            <span class="cart-item-remove" onclick="removeFromCart(this, ${price})">Удалить</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            cartItemsContainer.innerHTML += itemHtml;
-            cartTotal += price;
-            updateCartTotal();
-        }
-        // Функция для удаления товара из корзины
-        function removeFromCart(element, price) {
-            const itemContainer = element.closest('.cart-item');
-            const quantityElement = itemContainer.querySelector('.cart-item-quantity');
-            const quantity = parseInt(quantityElement.value);
-            const itemPrice = price * quantity;
-            cartTotal -= itemPrice;
-            itemContainer.remove();
-            updateCartTotal();
-        }
-
-        // Функция для обновления цены товара при изменении количества
-        function updateCartItem(inputElement, pricePerItem) {
-            const quantity = parseInt(inputElement.value);
-            const itemContainer = inputElement.closest('.cart-item');
-            const priceElement = itemContainer.querySelector('.cart-item-price');
-            // Вычисляем стоимость товара с учетом нового количества
-            const newPrice = pricePerItem * quantity;
-            const oldPrice = parseFloat(priceElement.textContent.replace('$', ''));
-            // Вычисляем изменение стоимости
-            const priceDifference = newPrice - oldPrice;
-            cartTotal += priceDifference;
-            // Обновляем отображение цены товара
-            priceElement.textContent = `$${newPrice.toFixed(2)}`;
-            // Обновляем общую стоимость корзины
-            updateCartTotal();
-        }
-
-        // Функция для обновления общей стоимости корзины
-        function updateCartTotal() {
-            cartTotalElement.textContent = `Итого: $${cartTotal}`;
-        }
-
-    </script>
-
-     <script>
-        // Пример добавления товаров в корзину при загрузке страницы (для демонстрации)
-        document.addEventListener('DOMContentLoaded', () => {
-            addToCart('Райзер','card1.webp', 500);
-            addToCart('Разветвитель','card2.webp', 300);
-        });
-    </script>
+    
 </body>
 </html>

@@ -1,21 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>header</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
 
-<header>
-    <h1>Near your house</h1>
-</header>
-<div class="welcome">
-    <ul class = "menu">
-    <li><a class="welcome" href = "register">Регистрация</a></li>
-    <br/>
-    <li><a class="welcome" href = "login">Войти</a></li>
+header {
+    background-color: rgb(211, 137, 39);
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+nav {
+    background-color: #444;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+}
+
+main {
+    padding: 20px;
+}
+
+footer {
+    background-color: rgb(211, 137, 39);
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+h1 {
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.menu{
+	list-style: none;
+	position: absolute;
+	top: 10px;
+	right: 2%;
+    color: #ffffff;
+}
+.welcome {
+    color: #ffffff;
+    text-decoration: none;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Near your house</h1>
+    </header>
+    <div class="welcome">
+        <ul class = "menu">
+		<li><a class="welcome" href = "register">Регистрация</a></li>
+        <br/>
+		<li><a class="welcome" href = "login">Войти</a></li>
 </ul>
-</div>
-<nav>
-    <ul>
-        <li><a href="/">Главная</a></li>
-        <li><a href="about">О нас</a></li>
-        <li><a href="contacts">Контакты</a></li>
-        <li><a href="catalog">Каталог</a></li>
-        <li><a onclick="OpenCart()">Корзина</a></li>
-        <li><a href="map">Карта</a></li>
-    </ul>
-</nav>
+    </div>
+    
+    <nav>
+        <ul>
+            <li><a href="">Главная</a></li>
+            <li><a href="https://deanon-team.github.io/">О нас</a></li>
+            <li><a href="contacts">Контакты</a></li>
+            <li><a href="catalog">Каталог</a></li>
+            <li><a href="delivery">Корзина</a></li>
+            <li><a href="map">Карта</a></li>
+        </ul>
+    </nav>
+</body>
+</html>
