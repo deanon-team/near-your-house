@@ -1,33 +1,44 @@
 from flask import Flask, render_template, url_for, app, request
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin
 import sqlite3
+import os
+import datetime
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databases/database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+app.permanent_session_lifetime = datetime.timedelta(days=30)
+login_manager = LoginManager(app)
 
-conn = sqlite3.connect('database.db')
-cursor = conn.cursor()
 
-
-class UserData(db.Model):
+class users(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(128), nullable=False)
-    typeofuser = db.Column(db.Integer, default='0')
+    typeofuser = db.Column(db.Integer)
     
     def __repr__(self):
-        return '<UserData %r>' % self.id
+        return '<Users %r>' % self.id
     
+
+
 
 
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/user')
+def user():
+    return 'user'
+
 
 @app.route('/about')
 def about():
@@ -40,7 +51,7 @@ def catalog():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        datausers = UserData.query.all()
+        datausers = users.query.all()
         for user in datausers:
             if user.username == request.form['username']:
                 if user.password == request.form['password']:
@@ -66,7 +77,7 @@ def register():
             password = request.form['password1']
             typeofuser = request.form['userType']
             
-            userdata = UserData(username=username, password=password, email=email, typeofuser=typeofuser)
+            userdata = users(username=username, password=password, email=email, typeofuser=typeofuser)
             try:
                 db.session.add(userdata)
                 db.session.commit()
