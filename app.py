@@ -9,10 +9,11 @@ import sqlite3
 import os
 import datetime
 
-
+#CHECK BEFORE START IN PUBLIC
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'Bhj2fjk7Rnl1TYE1snl5YR3FbmTRv52mkUrtv4JK'
 db = SQLAlchemy(app)
 app.permanent_session_lifetime = datetime.timedelta(days=30)
@@ -102,11 +103,7 @@ def register():
                 db.session.commit()
                 return 'Вы зарегестрировались!'
             except:
-                return 'Произошла ошибка'
-            #сохранение инфы о пользователе
-            #sqlite3.Cursor.execute('INSERT INTO user_data (username, email, password, typeofuser) VALUES (?, ?, ?, ?)', (username, email, password, typeofuser))
-            #conn.commit() # type: ignore
-
+                return 'Произошла ошибка, возможно пользователь с таким именем уже зарегестрирован'
         else:
             return 'Пароли не совпадают'
     else:
@@ -125,6 +122,32 @@ def logout():
 
 
 
+#Всё что касается каталога и его редактирования
+@app.route('/add_product', methods=['GET', 'POST'])
+def add_product():
+    if request.method == 'POST':
+        new_product = products(name=request.form['productName'],
+                               description=request.form['productDescription'],
+                               price=request.form['productPrice'],
+                               image_url=request.form['productImage'],
+                               weight=request.form['productWeight'],
+                               size=request.form['productSize'])
+        try:
+            db.session.add(new_product)
+            db.session.commit()
+            return 'Success'
+        except:
+            return "ПРОИЗОШЛА ОШИБКА"
+    else:
+        return render_template('addProduct.html')
+
+
+
+
 if __name__ == '__main__':
-    with app.app_context(): db.create_all()  # Создаем таблицы в базе данных
+    with app.app_context():
+        #Enable for clear cache
+        #db.session.remove()
+        #db.metadata.clear()
+        db.create_all()  # Создаем таблицы в базе данных
     app.run(debug=True)

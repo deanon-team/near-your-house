@@ -1,0 +1,75 @@
+
+{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог товаров</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.product {
+    width: 300px;
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.product img {
+    width: 100%;
+}
+
+.product h2 {
+    margin: 10px 0;
+}
+
+.product p {
+    color: #666;
+}
+
+.product span {
+    font-weight: bold;
+}
+
+button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+{% block body %}
+<body>
+    <main>
+        <div class="product">
+            <img src="product1.jpg" alt="Product 1">
+            <h2>Название товара 1</h2>
+            <p>Описание товара 1</p>
+            <span>$10.00</span>
+            <button>Добавить в корзину</button>
+        </div>
+        <div class="product">
+            <img src="product2.jpg" alt="Product 2">
+            <h2>Название товара 2</h2>
+            <p>Описание товара 2</p>
+            <span>$20.00</span>
+            <button>Добавить в корзину</button>
+        </div>
+        <!-- Добавьте больше товаров по аналогии -->
+    </main>
+</body>
+{% endblock %}
+</html>
+
