@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>карты</title>
+    <script src="calculateDistance.js"></script>
+    <link rel="stylesheet" href="maps.css">
+</head>
+<body>
+    <h1>Черкани адреса</h1>
+    <form id="maps.py">
+        <label class="originT" for="origin">откуда</label>
+        <input class="origin" type="text" id="origin" name="origin"><br><br>
+        <label class="destinationT" for="destination">куда</label>
+        <input class="destination" type="text" id="destination" name="destination"><br><br>
+
+        <button class="calculateb" type="calculate" onclick="calculateDistance()">расчитать</button>
+    </form>
+</body>
+</html>
